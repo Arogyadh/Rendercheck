@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const https = require("https");
 
+require("dotenv").config();
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -30,12 +32,13 @@ app.post("/", function (req, res) {
     ],
   };
   const jsonData = JSON.stringify(data);
-  const url = "https://us21.api.mailchimp.com/3.0/lists/aea7c4cb34";
+  const url =
+    "https://us21.api.mailchimp.com/3.0/lists/" + process.env.REACT_APP_LIST_ID;
   const options = {
     method: "POST",
-    auth: "Arogya:b1a57c4aebb08731e71c07afe929bd4d-us21",
+    auth: "Arogya:" + process.env.REACT_APP_SECRET_KEY,
   };
-
+  console.log("AROGYA:" + process.env.REACT_APP_SECRET_KEY);
   const request = https.request(url, options, function (response) {
     if (response.statusCode === 200) {
       res.sendFile(__dirname + "/success.html");
@@ -57,9 +60,3 @@ app.post("/failure", function (req, res) {
 app.listen(process.env.PORT || 3000, function () {
   console.log("Server is running on port 3000");
 });
-
-//API Key
-// b1a57c4aebb08731e71c07afe929bd4d-us21
-
-// List id
-// aea7c4cb34
