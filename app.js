@@ -45,10 +45,16 @@ app.post("/", function (req, res) {
     } else {
       res.sendFile(__dirname + "/failure.html");
     }
-
+    
     response.on("data", function (data) {
-      console.log(JSON.parse(data));
-    });
+  try {
+    const parsedData = JSON.parse(data);
+    console.log(parsedData);
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+  }
+});
+
   });
   request.write(jsonData);
   request.end();
